@@ -2,7 +2,9 @@ package feapi
 
 import (
 	"bytes"
-	"encoding/json"
+	"context"
+
+	"github.com/KarpelesLab/pjson"
 )
 
 type Sortable []*SortableValue
@@ -13,7 +15,11 @@ type SortableValue struct {
 }
 
 func (s *SortableValue) MarshalJSON() ([]byte, error) {
-	return json.Marshal(s.V)
+	return pjson.Marshal(s.V)
+}
+
+func (s *SortableValue) MarshalContextJSON(ctx context.Context) ([]byte, error) {
+	return pjson.MarshalContext(ctx, s.V)
 }
 
 func (s Sortable) Len() int {

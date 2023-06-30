@@ -1,7 +1,7 @@
 package feapi
 
 import (
-	"encoding/json"
+	"context"
 	"errors"
 	"io/fs"
 	"sort"
@@ -10,6 +10,7 @@ import (
 	"github.com/KarpelesLab/contexter"
 	"github.com/KarpelesLab/countrydb"
 	"github.com/KarpelesLab/countrydb/countrynames"
+	"github.com/KarpelesLab/pjson"
 	"github.com/KarpelesLab/pobj"
 	"golang.org/x/text/collate"
 	"golang.org/x/text/language"
@@ -45,14 +46,18 @@ func (country Country) Export(curlng language.Tag) map[string]any {
 }
 
 func (country Country) MarshalJSON() ([]byte, error) {
-	var curlng language.Tag
 	ctx := contexter.Context()
 	if ctx == nil {
 		return nil, errors.New("could not fetch context")
 	}
+	return country.MarshalContextJSON(ctx)
+}
+
+func (country Country) MarshalContextJSON(ctx context.Context) ([]byte, error) {
+	var curlng language.Tag
 	ctx.Value(&curlng)
 
-	return json.Marshal(country.Export(curlng))
+	return pjson.MarshalContext(ctx, country.Export(curlng))
 }
 
 func (country Country) getDisplayFormat() [][]string {

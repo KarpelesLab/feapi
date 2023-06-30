@@ -1,7 +1,7 @@
 package feapi
 
 import (
-	"encoding/json"
+	"context"
 	"errors"
 	"io/fs"
 	"strings"
@@ -9,6 +9,7 @@ import (
 	"github.com/KarpelesLab/apirouter"
 	"github.com/KarpelesLab/contexter"
 	"github.com/KarpelesLab/lngdb"
+	"github.com/KarpelesLab/pjson"
 	"github.com/KarpelesLab/pobj"
 	"github.com/KarpelesLab/putil"
 	"golang.org/x/text/collate"
@@ -23,11 +24,15 @@ func init() {
 type Language lngdb.Lng
 
 func (ln Language) MarshalJSON() ([]byte, error) {
-	var curlng language.Tag
 	ctx := contexter.Context()
 	if ctx == nil {
 		return nil, errors.New("could not fetch context")
 	}
+	return ln.MarshalContextJSON(ctx)
+}
+
+func (ln Language) MarshalContextJSON(ctx context.Context) ([]byte, error) {
+	var curlng language.Tag
 	ctx.Value(&curlng)
 
 	l := lngdb.Lng(ln)
@@ -46,7 +51,7 @@ func (ln Language) MarshalJSON() ([]byte, error) {
 		"Name_Long":  putil.Concat(nameShort, " (", countryName, ")"),
 	}
 
-	return json.Marshal(res)
+	return pjson.MarshalContext(ctx, res)
 }
 
 func languageLocal(ctx *apirouter.Context) (any, error) {
