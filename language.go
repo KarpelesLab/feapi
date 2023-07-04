@@ -18,7 +18,7 @@ import (
 
 func init() {
 	pobj.RegisterStatic("Language:local", languageLocal)
-	pobj.RegisterActions("Language", &pobj.ObjectActions{Fetch: pobj.Static(languageGet), List: pobj.Static(languageList)})
+	pobj.RegisterActions[Language]("Language", &pobj.ObjectActions{Fetch: pobj.Static(languageGet), List: pobj.Static(languageList)})
 }
 
 type Language lngdb.Lng

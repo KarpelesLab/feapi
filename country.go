@@ -17,7 +17,7 @@ import (
 )
 
 func init() {
-	pobj.RegisterActions("Country", &pobj.ObjectActions{Fetch: pobj.Static(countryGet), List: pobj.Static(countryList)})
+	pobj.RegisterActions[Country]("Country", &pobj.ObjectActions{Fetch: pobj.Static(countryGet), List: pobj.Static(countryList)})
 }
 
 type Country countrydb.Country
