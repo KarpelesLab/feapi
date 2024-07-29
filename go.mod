@@ -8,6 +8,7 @@ require (
 	github.com/KarpelesLab/apirouter v0.5.7
 	github.com/KarpelesLab/contexter v1.0.2
 	github.com/KarpelesLab/countrydb v0.1.3
+	github.com/KarpelesLab/currencydb v0.1.4
 	github.com/KarpelesLab/lngdb v1.0.0
 	github.com/KarpelesLab/pjson v0.1.9
 	github.com/KarpelesLab/pobj v0.1.5
