@@ -132,9 +132,9 @@ func countryList(ctx *apirouter.Context) (any, error) {
 	return res, nil
 }
 
-func countryGet(ctx *apirouter.Context, in struct{ Id string }) (any, error) {
+func countryGet(ctx *apirouter.Context, id string) (any, error) {
 	// find a country
-	c, ok := countrydb.ByAlpha2[in.Id]
+	c, ok := countrydb.ByAlpha2[id]
 	if !ok {
 		return nil, fs.ErrNotExist
 	}

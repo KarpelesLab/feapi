@@ -88,16 +88,16 @@ func languageList(ctx *apirouter.Context) (any, error) {
 	return res, nil
 }
 
-func languageGet(ctx *apirouter.Context, in struct{ Id string }) (any, error) {
-	if in.Id == "@" {
+func languageGet(ctx *apirouter.Context, id string) (any, error) {
+	if id == "@" {
 		// grab current language
 		var curlng language.Tag
 		ctx.Value(&curlng)
-		in.Id = curlng.String()
+		id = curlng.String()
 	}
 
 	// find a language
-	l, ok := lngdb.Languages[in.Id]
+	l, ok := lngdb.Languages[id]
 	if !ok {
 		return nil, fs.ErrNotExist
 	}
